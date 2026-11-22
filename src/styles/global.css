@@ -109,7 +109,7 @@ main.semi-main { padding: 0; }
 .project__text { margin: 0; font-size: 14px; line-height: 1.7; }
 
 /* ゼミの風景（紹介文の下に1枚） */
-.scenes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 900px; gap: var(--space-3); margin: 0 0 var(--space-8); }
+.scenes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 1200px; gap: var(--space-3); margin: 0 0 var(--space-8); }
 .scene { margin: 0; }
 .scene img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-md); }
 .scene figcaption { margin-top: var(--space-2); font-size: 14px; color: var(--ink-muted); }
