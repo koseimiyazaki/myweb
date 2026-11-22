@@ -106,3 +106,8 @@ main.semi-main { padding: 0; }
 .project__year { margin: 0; font-size: 14px; color: var(--ink-muted); }
 .project__title { margin: var(--space-1) 0 var(--space-2); font-size: 22px; line-height: 1.4; font-weight: 700; }
 .project__text { margin: 0; font-size: 16px; line-height: 1.7; }
+
+/* ゼミの風景（紹介文の下に1枚） */
+.scene { margin: 0 0 var(--space-8); }
+.scene img { display: block; width: 100%; max-width: 960px; height: auto; border-radius: var(--radius-md); }
+.scene figcaption { margin-top: var(--space-2); font-size: 14px; color: var(--ink-muted); }
