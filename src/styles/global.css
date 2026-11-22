@@ -99,16 +99,17 @@ main.semi-main { padding: 0; }
 
 
 /* これまでの企画（写真＋年＋企画名） */
-.projects { display: grid; align-items: start; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-8) var(--space-6); }
+.projects { display: grid; align-items: start; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 760px; gap: var(--space-6) var(--space-3); }
 .project { margin: 0; }
-.project img { display: block; width: 100%; height: auto; border-radius: var(--radius-md); background: #f2f2f2; }
+.project img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center top; border-radius: var(--radius-md); background: #f2f2f2; }
 .project figcaption { padding-top: var(--space-3); }
 .project__year { margin: 0; font-size: 14px; color: var(--ink-muted); }
-.project__title { margin: var(--space-1) 0 var(--space-2); font-size: 22px; line-height: 1.4; font-weight: 700; }
-.project__text { margin: 0; font-size: 16px; line-height: 1.7; }
+.project__title { margin: var(--space-1) 0 var(--space-2); font-size: 18px; line-height: 1.4; font-weight: 700; }
+.project__text { margin: 0; font-size: 14px; line-height: 1.7; }
 
 /* ゼミの風景（紹介文の下に1枚） */
-.scenes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-4); margin: 0 0 var(--space-8); }
+.scenes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 640px; gap: var(--space-3); margin: 0 0 var(--space-8); }
 .scene { margin: 0; }
 .scene img { display: block; width: 100%; height: auto; border-radius: var(--radius-md); }
 .scene figcaption { margin-top: var(--space-2); font-size: 14px; color: var(--ink-muted); }
+@media (max-width: 599px) { .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
