@@ -97,3 +97,12 @@ dl.list dd { margin: 0; }
 
 main.semi-main { padding: 0; }
 
+
+/* これまでの企画（写真＋年＋企画名） */
+.projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-8) var(--space-6); }
+.project { margin: 0; }
+.project img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--radius-md); background: #f2f2f2; }
+.project figcaption { padding-top: var(--space-3); }
+.project__year { margin: 0; font-size: 14px; color: var(--ink-muted); }
+.project__title { margin: var(--space-1) 0 var(--space-2); font-size: 22px; line-height: 1.4; font-weight: 700; }
+.project__text { margin: 0; font-size: 16px; line-height: 1.7; }

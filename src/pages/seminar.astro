@@ -8,6 +8,17 @@ const activities = [
   { verb: 'きいて・しらべて', title: 'まちのアンケート', say: '東加古川軒先市場で、まちの声をきいています。', since: '2024年〜' },
   { verb: 'つくります', title: '兵庫のブランドのnote', say: 'じっさいに つかって、たずねて、かいています。', since: '2026年〜' },
 ];
+
+// これまでの企画。新しいものを上に足す。写真は public/seminar/projects/ に、位置情報を消して置く。
+const projects = [
+  {
+    year: 2022,
+    title: '未知を感じる自然ツアー',
+    text: '日岡山公園（加古川）を舞台に、子どもたちが小さな挑戦を重ねて自分を知っていくツアーの企画。',
+    photo: '/seminar/projects/2022-michi-nature-tour.jpg',
+    alt: '企画を書き出したホワイトボード',
+  },
+];
 ---
 <Base>
   <section class="banner">
@@ -30,6 +41,20 @@ const activities = [
           <p class="board__say hand">{a.say}</p>
           <p class="board__since">{a.since}</p>
         </article>
+      ))}
+    </div>
+
+    <h2 class="semi-h2">これまでの企画</h2>
+    <div class="projects">
+      {projects.map((p) => (
+        <figure class="project">
+          <img src={p.photo} alt={p.alt} loading="lazy" />
+          <figcaption>
+            <p class="project__year">{p.year}年</p>
+            <h3 class="project__title">{p.title}</h3>
+            <p class="project__text">{p.text}</p>
+          </figcaption>
+        </figure>
       ))}
     </div>
 
