@@ -45,6 +45,11 @@ const sections = [
     </div>
   </div>
 
+  <figure class="am-content about-figure">
+    <img src="/about-regional-dx.jpg" alt="地域のデータをもとに話し合う場" width="1024" height="768" loading="lazy" />
+    <figcaption>地域DX</figcaption>
+  </figure>
+
   {sections.map((s) => (
     <section>
       <h2 class="am-list-header">{s.heading}</h2>
@@ -65,3 +70,9 @@ const sections = [
     <a class="am-btn am-btn--outlined" href="/contact/">研修・講演のご相談</a>
   </div>
 </Material>
+
+<style is:global>
+  .about-figure { margin: var(--space-6) 0 0; }
+  .about-figure img { display: block; width: 100%; max-width: 640px; height: auto; border-radius: var(--radius-md); }
+  .about-figure figcaption { margin-top: var(--space-2); font-size: 14px; color: var(--on-surface-variant); }
+</style>
