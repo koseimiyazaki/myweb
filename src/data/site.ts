@@ -2,7 +2,6 @@
 export const site = {
   // 内容が固まるまで検索エンジンに載せない。公開準備ができたら false にする
   noindex: true,
-  // TODO: 「崎」と「﨑（立つ崎）」のどちらを正式とするか確認
   name: '宮崎 光世',
   nameEn: 'Kosei Miyazaki',
   affiliation: '兵庫大学 現代ビジネス学部 教授',
