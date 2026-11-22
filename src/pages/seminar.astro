@@ -16,8 +16,12 @@ const projects = [
     when: '2024年2月',
     title: 'TSUMAMIGUI TIME',
     text: 'コープこうべの直営農場「コープエコファーム」の資源循環の取り組みを紹介しようと、採れた野菜を使ってクルチャの試食会を開きました。',
-    photo: '/seminar/projects/2024-tsumamigui-time.jpg',
-    alt: 'フライパンで焼いているほうれん草とチーズのクルチャ',
+    photo: '/seminar/projects/2024-tsumamigui-plates.jpg',
+    alt: '皿に盛りつけた試食用のクルチャ',
+    more: [
+      { src: '/seminar/projects/2024-tsumamigui-time.jpg', alt: 'フライパンで焼いているほうれん草とチーズのクルチャ' },
+      { src: '/seminar/projects/2024-tsumamigui-banner.jpg', alt: '試食会ののぼり' },
+    ],
     link: { href: 'https://www.instagram.com/p/C34ELkVp7wW/', label: 'Instagramで見る' },
   },
   {
@@ -75,7 +79,16 @@ const projects = [
     <div class="projects">
       {projects.map((p) => (
         <figure class="project">
-          <img src={p.photo} alt={p.alt} loading="lazy" />
+          <img class="project__main" src={p.photo} alt={p.alt} loading="lazy" />
+          {p.more && (
+            <div class="project__thumbs">
+              {[{ src: p.photo, alt: p.alt }, ...p.more].map((m, i) => (
+                <button type="button" class="project__thumb" aria-pressed={i === 0 ? 'true' : 'false'} data-src={m.src} data-alt={m.alt} aria-label={`写真${i + 1}を表示`}>
+                  <img src={m.src} alt="" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          )}
           <figcaption>
             <p class="project__year">{p.when ?? `${p.year}年`}</p>
             <h3 class="project__title">{p.title}</h3>
@@ -90,4 +103,13 @@ const projects = [
 
     <p class="semi-formal">兵庫大学 現代ビジネス学部 宮崎ゼミ</p>
   </div>
+  <script is:inline>
+    document.querySelectorAll('.project__thumbs').forEach((row) => {
+      const main = row.parentElement.querySelector('.project__main');
+      row.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
+        main.src = b.dataset.src; main.alt = b.dataset.alt;
+        row.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', x === b));
+      }));
+    });
+  </script>
 </Base>
