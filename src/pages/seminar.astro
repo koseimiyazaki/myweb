@@ -2,20 +2,38 @@
 import Base from '../layouts/Base.astro';
 import NoteFeed from '../components/NoteFeed.astro';
 import { site } from '../data/site';
+
+// 用件（短い名詞）＋ひとこと（話しかける口調）。並びは きく→しらべる→つくる の順。
+const activities = [
+  { verb: 'きいて・しらべて', title: 'まちのアンケート', say: '東加古川軒先市場で、まちの声をきいています。', since: '2024年〜' },
+  { verb: 'つくります', title: '兵庫のブランドのnote', say: 'じっさいに つかって、たずねて、かいています。', since: '2026年〜' },
+];
 ---
-<Base title="ゼミ">
-  <div class="prose">
-    <p class="muted">兵庫大学 現代ビジネス学部 宮崎ゼミ</p>
-    <h1>みやざきゼミ</h1>
-    <p class="hand" style="font-size: 26px; line-height: 1.6;"><span class="mark">きいて、しらべて、つくります。</span></p>
-    <p>まちの人の話をきき、データでしらべ、わかったことをかたちにします。まちのことを気軽に聞きに来られる「近所の大学生」をめざしています。</p>
+<Base>
+  <section class="banner">
+    <div class="banner__inner wrap">
+      <img class="banner__logo" src="/seminar/logo_yoko_yellow.png" alt="兵庫大学 現代ビジネス学部 みやざきゼミ" width="1600" height="341" />
+      <p class="banner__copy hand"><span>きいて、</span><span>しらべて、</span><span>つくります。</span></p>
+    </div>
+  </section>
+
+  <div class="wrap semi-body">
+    <p class="semi-lead">まちの人の話をきき、データでしらべ、わかったことをかたちにします。まちのことを気軽に聞きに来られる「近所の大学生」をめざしています。</p>
+
+    <h2 class="semi-h2">やっていること</h2>
+    <div class="semi-boards">
+      {activities.map((a) => (
+        <article class="board">
+          <p class="board__verb">{a.verb}</p>
+          <h3 class="board__title">{a.title}</h3>
+          <p class="board__say hand">{a.say}</p>
+          <p class="board__since">{a.since}</p>
+        </article>
+      ))}
+    </div>
+
+    <NoteFeed noteId={site.seminarNoteId} heading="ゼミのnote" />
+
+    <p class="semi-formal">兵庫大学 現代ビジネス学部 宮崎ゼミ</p>
   </div>
-
-  <h2>活動</h2>
-  <dl class="list">
-    <div><dt>きいて・しらべて</dt><dd>東加古川軒先市場での来場者調査（2024年〜）</dd></div>
-    <div><dt>つくります</dt><dd>兵庫のD2Cブランドを実際に使い、訪ねて書くnote記事の発信（2026年〜）</dd></div>
-  </dl>
-
-  <NoteFeed noteId={site.seminarNoteId} heading="ゼミのnote" />
 </Base>
