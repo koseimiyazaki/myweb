@@ -13,6 +13,15 @@ const activities = [
 const projects = [
   {
     year: 2024,
+    when: '2024年4月',
+    tags: ['ソトマナビ', 'プロジェクト演習'],
+    title: 'スマホ相談会の準備',
+    text: 'コープの店舗で開くスマホ相談会に向けて、学生が相談役になるための準備を進めました。',
+    photo: '/seminar/projects/2024-smartphone-prep.jpg',
+    alt: '教室で相談会の準備をする学生たち',
+  },
+  {
+    year: 2024,
     when: '2024年2月',
     title: 'TSUMAMIGUI TIME',
     text: 'コープこうべの直営農場「コープエコファーム」の資源循環の取り組みを紹介しようと、採れた野菜を使ってクルチャの試食会を開きました。',
@@ -97,7 +106,7 @@ const projects = [
             </div>
           )}
           <figcaption>
-            <p class="project__year">{p.when ?? `${p.year}年`}</p>
+            <p class="project__year">{p.when ?? `${p.year}年`}{p.tags && <span class="project__tags">{p.tags.map((t) => `#${t}`).join(' ')}</span>}</p>
             <h3 class="project__title">{p.title}</h3>
             <p class="project__text">{p.text}</p>
             {p.link && <p class="project__link"><a href={p.link.href} target="_blank" rel="noopener">{p.link.label}</a></p>}
