@@ -97,21 +97,3 @@ dl.list dd { margin: 0; }
 
 main.semi-main { padding: 0; }
 
-/* 学年タブ（選択中は ink の下線。yellow の面は横断幕だけに使う） */
-.cohorts { margin-bottom: var(--space-12); }
-.tabs { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; white-space: nowrap; gap: var(--space-1) var(--space-6); border-bottom: 1px solid var(--rule); margin-bottom: var(--space-6); }
-.tab { font: inherit; font-weight: 700; font-size: 16px; color: var(--ink-muted); background: none; border: 0; cursor: pointer;
-  padding: var(--space-3) 0; min-height: 48px; border-bottom: 3px solid transparent; margin-bottom: -1px; }
-.tab[aria-selected='true'] { color: var(--ink); border-bottom-color: var(--ink); }
-.tab:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-.panel__note { font-size: clamp(22px, 3vw, 30px); line-height: 1.6; margin: 0 0 var(--space-6); }
-.panel__empty { font-size: 20px; color: var(--ink-muted); margin: var(--space-8) 0; }
-.photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-8); }
-.photo { margin: 0; }
-.photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-md); }
-.photo figcaption { margin-top: var(--space-2); font-size: 18px; line-height: 1.5; }
-.members { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--space-4); }
-.member { margin: 0; padding: var(--space-4) var(--space-6); border: 2px solid var(--ink); border-radius: var(--radius-md); }
-.member__name { margin: 0 0 var(--space-2); font-size: 26px; font-weight: 700; line-height: 1.3; }
-.member__row { margin: 0 0 var(--space-1); font-size: 15px; line-height: 1.6; }
-.member__key { display: inline-block; min-width: 3em; margin-right: var(--space-2); font-size: 13px; color: var(--ink-muted); }

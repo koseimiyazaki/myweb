@@ -2,7 +2,6 @@
 import Base from '../layouts/Base.astro';
 import NoteFeed from '../components/NoteFeed.astro';
 import { site } from '../data/site';
-import { cohorts } from '../data/cohorts';
 
 // 用件（短い名詞）＋ひとこと（話しかける口調）。並びは きく→しらべる→つくる の順。
 const activities = [
@@ -21,45 +20,6 @@ const activities = [
   <div class="wrap semi-body">
     <p class="semi-lead">まちの人の話をきき、データでしらべ、わかったことをかたちにします。まちのことを気軽に聞きに来られる「近所の大学生」をめざしています。</p>
 
-    <section class="cohorts" aria-labelledby="cohorts-h">
-      <h2 class="semi-h2" id="cohorts-h">ゼミのみんな</h2>
-      <div class="tabs" role="tablist" aria-label="学年">
-        {cohorts.map((c, i) => (
-          <button class="tab" role="tab" id={`tab-${c.year}`} aria-controls={`panel-${c.year}`}
-            aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-year={c.year}>{c.label}</button>
-        ))}
-      </div>
-      {cohorts.map((c, i) => (
-        <div class="panel" role="tabpanel" id={`panel-${c.year}`} aria-labelledby={`tab-${c.year}`} hidden={i !== 0}>
-          {c.note && <p class="panel__note hand">{c.note}</p>}
-
-          {c.photos.length > 0 ? (
-            <div class="photos">
-              {c.photos.map((p) => (
-                <figure class="photo">
-                  <img src={p.src} alt={p.caption ?? `${c.label}の活動の様子`} loading="lazy" />
-                  {p.caption && <figcaption class="hand">{p.caption}</figcaption>}
-                </figure>
-              ))}
-            </div>
-          ) : (
-            <p class="panel__empty hand">しゃしんは、これから ふえていきます。</p>
-          )}
-
-          {c.members.length > 0 && (
-            <ul class="members">
-              {c.members.map((m) => (
-                <li class="member">
-                  <p class="member__name">{m.name}</p>
-                  {m.thesis && <p class="member__row"><span class="member__key">卒論</span>{m.thesis}</p>}
-                  {m.career && <p class="member__row"><span class="member__key">進路</span>{m.career}</p>}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      ))}
-    </section>
 
     <h2 class="semi-h2">やっていること</h2>
     <div class="semi-boards">
@@ -77,29 +37,4 @@ const activities = [
 
     <p class="semi-formal">兵庫大学 現代ビジネス学部 宮崎ゼミ</p>
   </div>
-  <script is:inline>
-    (() => {
-      const tabs = [...document.querySelectorAll('.cohorts [role=tab]')];
-      if (!tabs.length) return;
-      const select = (tab, focus) => {
-        tabs.forEach((t) => {
-          const on = t === tab;
-          t.setAttribute('aria-selected', on);
-          t.tabIndex = on ? 0 : -1;
-          document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
-        });
-        if (focus) tab.focus();
-        history.replaceState(null, '', '#' + tab.dataset.year);
-      };
-      tabs.forEach((t, i) => {
-        t.addEventListener('click', () => select(t));
-        t.addEventListener('keydown', (e) => {
-          const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-          if (d) { e.preventDefault(); select(tabs[(i + d + tabs.length) % tabs.length], true); }
-        });
-      });
-      const fromHash = tabs.find((t) => '#' + t.dataset.year === location.hash);
-      if (fromHash) select(fromHash);
-    })();
-  </script>
 </Base>
