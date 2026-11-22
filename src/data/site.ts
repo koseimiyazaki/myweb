@@ -15,11 +15,6 @@ export const site = {
 };
 
 export const nav = [
-  { href: '/', label: 'トップ' },
-  { href: '/profile/', label: 'プロフィール' },
-  { href: '/dx/', label: '自治体DX' },
-  { href: '/courses/', label: '担当科目' },
-  { href: '/search/', label: '検索とAI' },
-  { href: '/seminar/', label: 'ゼミ' },
-  { href: '/contact/', label: 'ご相談' },
+  { href: '/about/', label: 'about' },
+  { href: '/seminar/', label: 'みやざきゼミ' },
 ];

@@ -1,0 +1,62 @@
+---
+// Artifact Material デザインシステムのページ枠（トップ、about、ご相談）
+import tokens from '../styles/material/tokens.css?raw';
+import bundle from '../styles/material/bundle.css?raw';
+import { site } from '../data/site';
+
+interface Props { title?: string; description?: string; home?: boolean; }
+const { title, home = false, description = 'kosei.page — 宮崎光世（兵庫大学 現代ビジネス学部 教授）のつくったもの。' } = Astro.props;
+const pageTitle = title ? `${title} | kosei.page` : 'kosei.page';
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/about/', label: 'about' },
+  { href: '/seminar/', label: 'みやざきゼミ' },
+];
+---
+<!doctype html>
+<html lang="ja" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    {site.noindex && <meta name="robots" content="noindex, nofollow" />}
+    <script is:inline>
+      (() => {
+        const mq = matchMedia('(prefers-color-scheme: dark)');
+        const apply = () => (document.documentElement.dataset.theme = mq.matches ? 'dark' : 'light');
+        apply(); mq.addEventListener('change', apply);
+      })();
+    </script>
+    <style is:inline set:html={tokens + '\n' + bundle}></style>
+    <style is:inline>
+      html, body { margin: 0; }
+      .site-bar a.am-appbar__title, .site-bar .am-appbar__title a { color: inherit; text-decoration: none; }
+      .site-nav { display: flex; flex-shrink: 0; gap: var(--space-1); }
+      @media (max-width: 599px) { .site-nav { gap: 0; } .site-nav .am-btn { padding: 0 var(--space-2); } .site-bar .am-appbar__title { padding: 0 var(--space-2); } }
+      .site-nav a[aria-current='page'] { text-decoration: underline; text-underline-offset: 6px; }
+      .site-main { padding-top: var(--space-4); padding-bottom: var(--space-8); }
+      .site-main section { margin-top: var(--space-6); }
+      .site-foot { padding-top: var(--space-6); padding-bottom: var(--space-8); color: var(--on-surface-variant); font-size: 14px; }
+    </style>
+  </head>
+  <body class="am-app">
+    <header class="am-appbar site-bar">
+      <span class="am-logo" role="img" aria-label="ロゴ"></span>
+      {home
+        ? <h1 class="am-appbar__title"><a href="/">kosei.page</a></h1>
+        : <a class="am-appbar__title" href="/">kosei.page</a>}
+      <nav class="site-nav" aria-label="サイト内">
+        {nav.map((n) => (
+          <a class="am-btn am-btn--text" href={n.href} aria-current={path === n.href ? 'page' : undefined}>{n.label}</a>
+        ))}
+      </nav>
+    </header>
+    <main class="site-main">
+      <slot />
+    </main>
+    <footer class="am-content site-foot">{site.name}</footer>
+  </body>
+</html>

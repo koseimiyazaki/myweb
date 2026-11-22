@@ -1,0 +1,67 @@
+---
+import Material from '../layouts/Material.astro';
+import { site } from '../data/site';
+
+const sections = [
+  {
+    heading: '自治体',
+    items: [
+      { head: '神戸市 CDO補佐官', sub: '2021年〜' },
+      { head: '宝塚市 CXO補佐官', sub: '2022年〜' },
+      { head: '福山市 政策形成推進官', sub: '2026年〜' },
+      { head: '小野市 DXアドバイザー', sub: '2023年〜' },
+      { head: '加古川市 スマートシティ推進アドバイザー', sub: '2024年〜' },
+    ],
+  },
+  {
+    heading: '担当科目',
+    items: [
+      { head: 'ICTデータ活用入門', sub: '数理・データサイエンス・AI教育プログラム（リテラシーレベル）認定科目' },
+      { head: 'AI・データサイエンス活用論', sub: '2024年度 兵庫大学グッド・プラクティス賞' },
+      { head: 'データ可視化', sub: '2024年度 兵庫大学グッド・プラクティス賞' },
+      { head: 'データ活用演習 I・II', sub: '' },
+    ],
+  },
+  {
+    heading: '経歴',
+    items: [
+      { head: '兵庫大学 現代ビジネス学部 教授、学部長補佐', sub: '2021年〜' },
+      { head: 'ヤフー 公共領域データソリューション プロジェクトマネージャー', sub: '2017〜2021年' },
+      { head: 'ヤフー 検索品質の評価・改善部門の責任者', sub: '2012〜2017年' },
+      { head: 'ヤフー 検索プロダクトマネージャー、YST担当', sub: '2004〜2012年' },
+      { head: 'ヤフー サーファー、ディレクトリ検索のプロダクトリード', sub: '1997〜2004年' },
+      { head: 'Code for Japan コーポレートフェロー', sub: '2015〜2018年' },
+      { head: '東京大学 理学部（地理）卒業', sub: '' },
+    ],
+  },
+];
+---
+<Material title="about">
+  <h1 class="am-page-title">about</h1>
+  <div class="am-content">
+    <div class="am-prose am-reading am-measure">
+      <p>{site.name}（{site.nameEn}）。{site.affiliation}。</p>
+      <p>ヤフーで24年、ウェブ検索の企画と検索品質の評価・改善に携わりました。いまは自治体の行政、大学の教育、AIの導入の現場で、組織づくり・人づくりと技術の導入を組み合わせた組織変革に取り組んでいます。</p>
+    </div>
+  </div>
+
+  {sections.map((s) => (
+    <section>
+      <h2 class="am-list-header">{s.heading}</h2>
+      <div class="am-list">
+        {s.items.map((it) => (
+          <div class="am-item">
+            <span class="am-item__body">
+              <span class="am-item__headline">{it.head}</span>
+              {it.sub && <span class="am-item__support">{it.sub}</span>}
+            </span>
+          </div>
+        ))}
+      </div>
+    </section>
+  ))}
+
+  <div class="am-content" style="margin-top: var(--space-6)">
+    <a class="am-btn am-btn--outlined" href="/contact/">研修・講演のご相談</a>
+  </div>
+</Material>

@@ -1,10 +1,11 @@
 ---
+// みやざきゼミのデザイン基準で組むページ用（ゼミのページ）
 import '../styles/global.css';
 import { site, nav } from '../data/site';
 
 interface Props { title?: string; description?: string; }
 const { title, description = `${site.name}（${site.affiliation}）の活動紹介。自治体DX、担当科目、検索とAI、ゼミ。` } = Astro.props;
-const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.affiliation}`;
+const pageTitle = title ? `${title} | kosei.page` : 'kosei.page';
 const path = Astro.url.pathname;
 ---
 <!doctype html>
@@ -25,7 +26,7 @@ const path = Astro.url.pathname;
   <body>
     <header class="site">
       <div class="inner wrap">
-        <a class="name" href="/">{site.name}<small>{site.nameEn}</small></a>
+        <a class="name" href="/">kosei.page</a>
         <nav class="site" aria-label="サイト内">
           {nav.map((n) => <a href={n.href} aria-current={path === n.href ? 'page' : undefined}>{n.label}</a>)}
         </nav>
@@ -35,7 +36,7 @@ const path = Astro.url.pathname;
       <slot />
     </main>
     <footer class="site wrap">
-      <p class="muted">{site.name}　{site.affiliation}</p>
+      <p class="muted">{site.name}</p>
     </footer>
   </body>
 </html>

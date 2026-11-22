@@ -6,25 +6,14 @@
 
 | 場所 | 中身 |
 |---|---|
-| `src/data/site.ts` | 名前・肩書き・noteのID・メニュー。表記を直すときはここ |
-| `src/pages/` | 各ページ（トップ、プロフィール、自治体DX、担当科目、検索とAI、ゼミ、ご相談） |
-| `src/content/essays/` | 「検索とAI」の論考。Markdownを1本ずつ置く |
-| `src/styles/global.css` | みやざきゼミのデザイン基準（paper地・ink文字・yellowはページに1か所） |
-| `wrangler.jsonc` | Cloudflareの設定（`dist/` を配信） |
-
-## 論考の追加
-
-`src/content/essays/<英数字のファイル名>.md` を作る。
-
-```md
----
-title: タイトル
-date: 2026-12-01
-summary: 一覧に出す1行の要約
-draft: true   # 公開するときに false にするか消す
----
-本文
-```
+| `src/data/works.ts` | トップに並べる「つくったもの」（名前とリンク先）。並び順がそのまま表示順 |
+| `src/data/site.ts` | 名前・noteのID・Turnstileのサイトキー・ヘッダーのメニュー |
+| `src/layouts/Material.astro` | トップ、about、ご相談の枠。デザインは Artifact Material |
+| `src/layouts/Base.astro` | みやざきゼミのページの枠。デザインはみやざきゼミの基準 |
+| `src/styles/material/` | Artifact Material の tokens.css（tokens.json から生成）と bundle.css |
+| `src/styles/global.css` | みやざきゼミのデザイン基準 |
+| `worker/index.js` | 問い合わせフォームの受付（/api/contact） |
+| `wrangler.jsonc` | Cloudflareの設定 |
 
 ## noteの最新記事
 

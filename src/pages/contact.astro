@@ -1,31 +1,30 @@
 ---
-import Base from '../layouts/Base.astro';
+import Material from '../layouts/Material.astro';
 import { site } from '../data/site';
 const ready = Boolean(site.turnstileSiteKey);
+const alert = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16.5v.01"/></svg>';
 ---
-<Base title="ご相談">
-  <div class="prose">
-    <h1>ご相談</h1>
-    <p>次のようなご相談をお受けしています。</p>
-    <ul>
-      <li>自治体・企業向けの研修、講演（DX、AI活用、データ活用）</li>
-      <li>組織変革やAI導入の進め方についての助言</li>
-      <li>ゼミとの連携（取材、調査、地域のイベント）</li>
-    </ul>
+<Material title="ご相談">
+  <h1 class="am-page-title">ご相談</h1>
+  <div class="am-content">
+    <div class="am-prose am-measure">
+      <p>自治体・企業向けの研修や講演（DX、AI活用、データ活用）、組織変革やAI導入の進め方についてのご相談をお受けしています。</p>
+    </div>
 
     {ready ? (
-      <form id="contact" class="form" novalidate>
-        <label>お名前<span class="req">必須</span><input name="name" required maxlength="100" autocomplete="name" /></label>
-        <label>ご所属<input name="org" maxlength="200" autocomplete="organization" /></label>
-        <label>メールアドレス<span class="req">必須</span><input name="email" type="email" required maxlength="200" autocomplete="email" /></label>
-        <label>ご相談の内容<span class="req">必須</span><textarea name="message" required maxlength="4000" rows="8"></textarea></label>
+      <form id="contact" class="form am-measure" novalidate>
+        <label class="am-field"><input class="am-input" name="name" placeholder=" " required maxlength="100" autocomplete="name" /><span class="am-field__label">お名前（必須）</span></label>
+        <label class="am-field"><input class="am-input" name="org" placeholder=" " maxlength="200" autocomplete="organization" /><span class="am-field__label">ご所属</span></label>
+        <label class="am-field"><input class="am-input" name="email" type="email" placeholder=" " required maxlength="200" autocomplete="email" /><span class="am-field__label">メールアドレス（必須）</span></label>
+        <label class="am-field"><textarea class="am-input" name="message" placeholder=" " required maxlength="4000" rows="6"></textarea><span class="am-field__label">ご相談の内容（必須）</span></label>
         <div class="hp" aria-hidden="true"><label>ウェブサイト<input name="website" tabindex="-1" autocomplete="off" /></label></div>
         <div id="turnstile" data-sitekey={site.turnstileSiteKey}></div>
-        <button type="submit"><span class="mark">送信する</span></button>
-        <p id="status" class="muted" role="status" aria-live="polite"></p>
+        <div><button class="am-btn" type="submit">送信する</button></div>
+        <p id="status" class="am-field__support" role="status" aria-live="polite"></p>
+        <p id="error" class="am-field__error" hidden><Fragment set:html={alert} /><span></span></p>
       </form>
     ) : (
-      <p class="muted">お問い合わせフォームは準備中です。</p>
+      <p class="am-field__support">お問い合わせフォームは準備中です。</p>
     )}
   </div>
 
@@ -39,6 +38,8 @@ const ready = Boolean(site.turnstileSiteKey);
         };
         const form = document.getElementById('contact');
         const status = document.getElementById('status');
+        const error = document.getElementById('error');
+        const showError = (msg) => { error.querySelector('span').textContent = msg; error.hidden = false; status.textContent = ''; };
         const messages = {
           required: 'お名前、メールアドレス、ご相談の内容を入力してください。',
           email: 'メールアドレスの形式を確認してください。',
@@ -49,19 +50,20 @@ const ready = Boolean(site.turnstileSiteKey);
           e.preventDefault();
           const btn = form.querySelector('button');
           btn.disabled = true;
-          status.textContent = '送信しています…';
+          error.hidden = true;
+          status.textContent = '送信しています。';
           try {
             const res = await fetch('/api/contact', { method: 'POST', body: new FormData(form) });
             const data = await res.json().catch(() => ({}));
             if (data.ok) {
               form.reset();
               form.querySelectorAll('input, textarea, button').forEach((el) => (el.disabled = true));
-              status.textContent = '送信しました。内容を確認して、ご連絡いたします。';
+              status.textContent = '送信しました。内容を確認して、ご連絡します。';
               return;
             }
-            status.textContent = messages[data.error] || '送信できませんでした。時間をおいて、もう一度お試しください。';
+            showError(messages[data.error] || '送信できませんでした。時間をおいて、もう一度お試しください。');
           } catch {
-            status.textContent = '送信できませんでした。時間をおいて、もう一度お試しください。';
+            showError('送信できませんでした。時間をおいて、もう一度お試しください。');
           }
           if (window.turnstile && widgetId !== undefined) window.turnstile.reset(widgetId);
           btn.disabled = false;
@@ -70,17 +72,9 @@ const ready = Boolean(site.turnstileSiteKey);
       <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad" async defer></script>
     </>
   )}
-</Base>
+</Material>
 
-<style>
-  .form { display: grid; gap: var(--space-4); margin-top: var(--space-8); }
-  .form label { display: grid; gap: var(--space-1); font-weight: 700; font-size: 15px; }
-  .req { margin-left: var(--space-2); font-weight: 500; font-size: 12px; color: var(--ink-muted); }
-  .form input, .form textarea { font: inherit; font-weight: 500; color: var(--ink); padding: var(--space-3);
-    border: 1px solid #CFCFCF; border-radius: var(--radius-sm); background: var(--paper); }
-  .form input:focus, .form textarea:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
-  .form button { justify-self: start; font: inherit; font-weight: 700; font-size: 17px; padding: 0; border: 0; background: none; cursor: pointer; }
-  .form button .mark { display: inline-block; padding: var(--space-2) var(--space-6); }
-  .form button:disabled { opacity: 0.5; cursor: default; }
+<style is:global>
+  .form { display: grid; gap: var(--space-4); margin-top: var(--space-6); }
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 </style>

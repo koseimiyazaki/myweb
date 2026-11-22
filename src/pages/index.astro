@@ -1,22 +1,18 @@
 ---
-import Base from '../layouts/Base.astro';
-import NoteFeed from '../components/NoteFeed.astro';
-import { site } from '../data/site';
+import Material from '../layouts/Material.astro';
+import { works } from '../data/works';
 ---
-<Base>
-  <section class="prose">
-    <p class="muted">{site.affiliation}</p>
-    <h1><span class="mark">{site.question}</span></h1>
-    <p>ウェブ検索の現場から始まり、いまは自治体の行政、大学の教育、AIの導入で、同じ問いを追っています。専門は、組織づくり・人づくりと、技術の理解・導入を組み合わせた組織変革です。</p>
-    <p>ヤフーで24年、検索サービスの企画と検索品質の評価・改善に携わりました。2021年から兵庫大学で教え、神戸市・宝塚市・福山市で補佐官として、自治体の変革に伴走しています。</p>
-  </section>
-
-  <div class="cards">
-    <a class="card" href="/dx/"><h3>自治体DX</h3><p>神戸市・宝塚市・福山市の補佐官、小野市・加古川市のアドバイザー</p></a>
-    <a class="card" href="/courses/"><h3>担当科目</h3><p>データ活用とAI活用を、手を動かして学ぶ授業</p></a>
-    <a class="card" href="/search/"><h3>検索とAI</h3><p>人と組織は情報をどう見つけ、どう判断するか</p></a>
-    <a class="card" href="/seminar/"><h3>ゼミ</h3><p>みやざきゼミ。きいて、しらべて、つくります。</p></a>
+<Material home>
+  <div class="am-content">
+    <div class="am-grid">
+      {works.map((w) => (
+        <article class="am-card am-card--outlined">
+          <h2 class="am-card__heading">{w.title}</h2>
+          <div class="am-card__actions">
+            <a class="am-btn am-btn--tonal" href={w.url} target="_blank" rel="noopener">開く</a>
+          </div>
+        </article>
+      ))}
+    </div>
   </div>
-
-  <NoteFeed noteId={site.seminarNoteId} heading="ゼミのnote" />
-</Base>
+</Material>

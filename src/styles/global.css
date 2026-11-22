@@ -34,7 +34,7 @@ li { margin-bottom: var(--space-2); }
 .wrap { padding-left: clamp(var(--space-4), 5vw, var(--space-16)); padding-right: clamp(var(--space-4), 5vw, var(--space-16)); }
 .prose { max-width: var(--measure); }
 .muted { color: var(--ink-muted); font-size: 15px; }
-.hand { font-family: var(--hand); font-weight: 400; }
+.hand { font-family: var(--hand); font-weight: 400; word-break: auto-phrase; }
 
 /* ページに1か所だけ使う yellow の面 */
 .mark { background: var(--yellow); color: var(--ink); padding: 0.05em 0.3em; border-radius: var(--radius-sm);
