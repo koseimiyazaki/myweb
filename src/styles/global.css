@@ -121,3 +121,4 @@ main.semi-main { padding: 0; }
 .project__thumb:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 @media (max-width: 599px) { .scenes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .project__tags { margin-left: var(--space-1); }
+.semi-lead p { margin: 0 0 var(--space-3); }
