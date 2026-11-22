@@ -1,5 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+const ready = Boolean(site.turnstileSiteKey);
 ---
 <Base title="ご相談">
   <div class="prose">
@@ -10,7 +12,70 @@ import Base from '../layouts/Base.astro';
       <li>組織変革やAI導入の進め方についての助言</li>
       <li>ゼミとの連携（取材、調査、地域のイベント）</li>
     </ul>
-    <!-- TODO: 連絡先（大学のメール、またはフォーム）を決めて入れる -->
-    <p class="muted">連絡先は準備中です。</p>
+
+    {ready ? (
+      <form id="contact" class="form" novalidate>
+        <label>お名前<span class="req">必須</span><input name="name" required maxlength="100" autocomplete="name" /></label>
+        <label>ご所属<input name="org" maxlength="200" autocomplete="organization" /></label>
+        <label>メールアドレス<span class="req">必須</span><input name="email" type="email" required maxlength="200" autocomplete="email" /></label>
+        <label>ご相談の内容<span class="req">必須</span><textarea name="message" required maxlength="4000" rows="8"></textarea></label>
+        <div class="hp" aria-hidden="true"><label>ウェブサイト<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+        <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-language="ja"></div>
+        <button type="submit"><span class="mark">送信する</span></button>
+        <p id="status" class="muted" role="status" aria-live="polite"></p>
+      </form>
+    ) : (
+      <p class="muted">お問い合わせフォームは準備中です。</p>
+    )}
   </div>
+
+  {ready && (
+    <>
+      <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+      <script is:inline>
+        const form = document.getElementById('contact');
+        const status = document.getElementById('status');
+        const messages = {
+          required: 'お名前、メールアドレス、ご相談の内容を入力してください。',
+          email: 'メールアドレスの形式を確認してください。',
+          too_long: '入力が長すぎます。ご相談の内容は4000字以内でお願いします。',
+          captcha: '確認が完了していません。少し待ってから、もう一度送信してください。',
+        };
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const btn = form.querySelector('button');
+          btn.disabled = true;
+          status.textContent = '送信しています…';
+          try {
+            const res = await fetch('/api/contact', { method: 'POST', body: new FormData(form) });
+            const data = await res.json().catch(() => ({}));
+            if (data.ok) {
+              form.reset();
+              form.querySelectorAll('input, textarea, button').forEach((el) => (el.disabled = true));
+              status.textContent = '送信しました。内容を確認して、ご連絡いたします。';
+              return;
+            }
+            status.textContent = messages[data.error] || '送信できませんでした。時間をおいて、もう一度お試しください。';
+          } catch {
+            status.textContent = '送信できませんでした。時間をおいて、もう一度お試しください。';
+          }
+          if (window.turnstile) window.turnstile.reset();
+          btn.disabled = false;
+        });
+      </script>
+    </>
+  )}
 </Base>
+
+<style>
+  .form { display: grid; gap: var(--space-4); margin-top: var(--space-8); }
+  .form label { display: grid; gap: var(--space-1); font-weight: 700; font-size: 15px; }
+  .req { margin-left: var(--space-2); font-weight: 500; font-size: 12px; color: var(--ink-muted); }
+  .form input, .form textarea { font: inherit; font-weight: 500; color: var(--ink); padding: var(--space-3);
+    border: 1px solid #CFCFCF; border-radius: var(--radius-sm); background: var(--paper); }
+  .form input:focus, .form textarea:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+  .form button { justify-self: start; font: inherit; font-weight: 700; font-size: 17px; padding: 0; border: 0; background: none; cursor: pointer; }
+  .form button .mark { display: inline-block; padding: var(--space-2) var(--space-6); }
+  .form button:disabled { opacity: 0.5; cursor: default; }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+</style>

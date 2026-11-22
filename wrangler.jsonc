@@ -1,8 +1,12 @@
 {
-  // Cloudflare Workers（静的アセット）で dist/ を配信する
+  // Cloudflare Workers で dist/ の静的サイトを配信し、/api/contact だけ worker/index.js が受ける
   "name": "myweb",
+  "main": "worker/index.js",
   "compatibility_date": "2026-11-01",
-  "assets": { "directory": "./dist" },
+  "assets": { "directory": "./dist", "binding": "ASSETS" },
   // 独自ドメイン。Cloudflareで購入したドメインなので、DNSと証明書は自動で設定される
-  "routes": [{ "pattern": "kosei.page", "custom_domain": true }]
+  "routes": [{ "pattern": "kosei.page", "custom_domain": true }],
+  // 問い合わせの通知先。Email Routing で認証済みのアドレスにだけ送れる
+  "send_email": [{ "name": "CONTACT", "destination_address": "kosei.page@gmail.com" }]
+  // Turnstile の秘密鍵は Cloudflare の管理画面で、変数名 TURNSTILE_SECRET のシークレットとして登録する（リポジトリには置かない）
 }
