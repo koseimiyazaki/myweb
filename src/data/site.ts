@@ -15,6 +15,7 @@ export const site = {
 };
 
 export const nav = [
-  { href: '/about/', label: 'about' },
   { href: '/seminar/', label: 'みやざきゼミ' },
+  { href: '/about/', label: 'about' },
+  { href: '/contact/', label: 'contact' },
 ];
