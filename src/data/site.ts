@@ -11,7 +11,7 @@ export const site = {
   // 個人noteアカウントのID。検索とAIの論考をnoteに置く場合に使う
   personalNoteId: '',
   // Cloudflare Turnstile のサイトキー（公開してよい値）。空なら問い合わせフォームを出さない
-  turnstileSiteKey: '',
+  turnstileSiteKey: '0x4AAAAAAGNEg1ybW4v-uYU8',
 };
 
 export const nav = [

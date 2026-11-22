@@ -5,6 +5,9 @@ import { EmailMessage } from 'cloudflare:email';
 const FROM = 'form@kosei.page';
 const TO = 'kosei.page@gmail.com';
 const LIMITS = { name: 100, email: 200, org: 200, message: 4000 };
+// Turnstile の判定で受け付けるホスト名とアクション（本番に localhost は入れない）
+const ALLOWED_HOSTS = ['kosei.page'];
+const ACTION = 'contact';
 
 export default {
   async fetch(request, env) {
@@ -25,14 +28,21 @@ async function handleContact(request, env) {
   // 1. ハニーポット：埋まっていたらロボット。成功したふりをして何もしない
   if (get('website')) return json({ ok: true });
 
-  // 2. Turnstile
-  const token = get('cf-turnstile-response');
-  if (!token || !env.TURNSTILE_SECRET) return json({ ok: false, error: 'captcha' }, 400);
-  const verify = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-    method: 'POST',
-    body: new URLSearchParams({ secret: env.TURNSTILE_SECRET, response: token, remoteip: request.headers.get('CF-Connecting-IP') ?? '' }),
-  }).then((r) => r.json()).catch(() => ({ success: false }));
-  if (!verify.success) return json({ ok: false, error: 'captcha' }, 400);
+  // 2. Turnstile（トークンは1回限り。サーバー側で siteverify に問い合わせる）
+  const token = form.get('cf-turnstile-response');
+  if (typeof token !== 'string' || !token || token.length > 2048) return json({ ok: false, error: 'captcha' }, 400);
+  if (!env.TURNSTILE_SECRET || ALLOWED_HOSTS.length === 0) return json({ ok: false, error: 'captcha' }, 500);
+  let verify = { success: false };
+  try {
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      body: new URLSearchParams({ secret: env.TURNSTILE_SECRET, response: token, remoteip: request.headers.get('CF-Connecting-IP') ?? '' }),
+    });
+    if (res.ok) verify = await res.json();
+  } catch { verify = { success: false }; }
+  if (verify.success !== true || verify.action !== ACTION || !ALLOWED_HOSTS.includes(verify.hostname)) {
+    return json({ ok: false, error: 'captcha' }, 400);
+  }
 
   // 3. 入力チェック
   const data = { name: get('name'), email: get('email'), org: get('org'), message: get('message') };

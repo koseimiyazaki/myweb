@@ -20,7 +20,7 @@ const ready = Boolean(site.turnstileSiteKey);
         <label>メールアドレス<span class="req">必須</span><input name="email" type="email" required maxlength="200" autocomplete="email" /></label>
         <label>ご相談の内容<span class="req">必須</span><textarea name="message" required maxlength="4000" rows="8"></textarea></label>
         <div class="hp" aria-hidden="true"><label>ウェブサイト<input name="website" tabindex="-1" autocomplete="off" /></label></div>
-        <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-language="ja"></div>
+        <div id="turnstile" data-sitekey={site.turnstileSiteKey}></div>
         <button type="submit"><span class="mark">送信する</span></button>
         <p id="status" class="muted" role="status" aria-live="polite"></p>
       </form>
@@ -31,8 +31,12 @@ const ready = Boolean(site.turnstileSiteKey);
 
   {ready && (
     <>
-      <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
       <script is:inline>
+        let widgetId;
+        window.onTurnstileLoad = () => {
+          const el = document.getElementById('turnstile');
+          widgetId = window.turnstile.render(el, { sitekey: el.dataset.sitekey, action: 'contact', language: 'ja' });
+        };
         const form = document.getElementById('contact');
         const status = document.getElementById('status');
         const messages = {
@@ -59,10 +63,11 @@ const ready = Boolean(site.turnstileSiteKey);
           } catch {
             status.textContent = '送信できませんでした。時間をおいて、もう一度お試しください。';
           }
-          if (window.turnstile) window.turnstile.reset();
+          if (window.turnstile && widgetId !== undefined) window.turnstile.reset(widgetId);
           btn.disabled = false;
         });
       </script>
+      <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad" async defer></script>
     </>
   )}
 </Base>
