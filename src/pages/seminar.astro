@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import NoteFeed from '../components/NoteFeed.astro';
+import { site } from '../data/site';
+---
+<Base title="ゼミ">
+  <div class="prose">
+    <p class="muted">兵庫大学 現代ビジネス学部 宮﨑ゼミ</p>
+    <h1>みやざきゼミ</h1>
+    <p class="hand" style="font-size: 26px; line-height: 1.6;"><span class="mark">きいて、しらべて、つくります。</span></p>
+    <p>まちの人の話をきき、データでしらべ、わかったことをかたちにします。スマホのことも、まちのことも、気軽に聞きに来られる「近所の大学生」をめざしています。</p>
+  </div>
+
+  <h2>活動</h2>
+  <dl class="list">
+    <div><dt>きいて</dt><dd>コープ稲美などで、大学生によるスマホ教室（2024年〜）</dd></div>
+    <div><dt>しらべて</dt><dd>東加古川軒先市場での来場者調査（2024年〜）</dd></div>
+    <div><dt>つくります</dt><dd>兵庫のD2Cブランドを実際に使い、訪ねて書くnote記事の発信（2026年〜）</dd></div>
+  </dl>
+
+  <NoteFeed noteId={site.seminarNoteId} heading="ゼミのnote" />
+</Base>

@@ -1,0 +1,40 @@
+---
+// ビルド時に note の RSS を読み、最新記事を並べる。
+// 取得に失敗しても、サイトの組み立ては止めない（欄ごと出さない）。
+interface Props { noteId: string; limit?: number; heading?: string; }
+const { noteId, limit = 5, heading = 'noteの最新記事' } = Astro.props;
+
+type Item = { title: string; link: string; date: string };
+let items: Item[] = [];
+if (noteId) {
+  try {
+    const res = await fetch(`https://note.com/${noteId}/rss`);
+    if (res.ok) {
+      const xml = await res.text();
+      const pick = (block: string, tag: string) => {
+        const m = block.match(new RegExp(`<${tag}>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?</${tag}>`));
+        return m ? m[1].trim() : '';
+      };
+      items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0, limit).map(([, b]) => {
+        const d = new Date(pick(b, 'pubDate'));
+        return {
+          title: pick(b, 'title'),
+          link: pick(b, 'link'),
+          date: isNaN(d.getTime()) ? '' : `${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`,
+        };
+      });
+    }
+  } catch { items = []; }
+}
+---
+{items.length > 0 && (
+  <section>
+    <h2>{heading}</h2>
+    <dl class="list">
+      {items.map((it) => (
+        <div><dt>{it.date}</dt><dd><a href={it.link}>{it.title}</a></dd></div>
+      ))}
+    </dl>
+    <p><a href={`https://note.com/${noteId}`}>noteで記事をすべて見る</a></p>
+  </section>
+)}
