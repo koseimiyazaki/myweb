@@ -2,5 +2,7 @@
   // Cloudflare Workers（静的アセット）で dist/ を配信する
   "name": "myweb",
   "compatibility_date": "2026-11-01",
-  "assets": { "directory": "./dist" }
+  "assets": { "directory": "./dist" },
+  // 独自ドメイン。Cloudflareで購入したドメインなので、DNSと証明書は自動で設定される
+  "routes": [{ "pattern": "kosei.page", "custom_domain": true }]
 }
