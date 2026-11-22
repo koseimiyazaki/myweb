@@ -1,5 +1,7 @@
 // サイト全体で使う名前・リンク。表記を直すときはここだけ変える。
 export const site = {
+  // 内容が固まるまで検索エンジンに載せない。公開準備ができたら false にする
+  noindex: true,
   // TODO: 「崎」と「﨑（立つ崎）」のどちらを正式とするか確認
   name: '宮崎 光世',
   nameEn: 'Kosei Miyazaki',
