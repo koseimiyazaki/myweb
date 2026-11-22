@@ -289,6 +289,19 @@ const projects = [
     photo: '/seminar/projects/2022-sotomanabi-poster.jpg',
     alt: '教室に並んだポスターを見る学生たち',
   },
+  {
+    tags: ['プロジェクト演習'],
+    year: 2022,
+    when: '2022年5月',
+    title: '神戸のビジネスコンテストに挑戦',
+    text: '学生が自分たちで練った事業のアイデアを、神戸のビジネスコンテストで発表しました。準備の段階から教員も一緒に構想を練りました。',
+    photo: '/seminar/projects/2022-kobe-bizcon-1.jpg',
+    alt: 'ビジネスコンテストの会場で事業のアイデアを発表する学生（発表者名はぼかしています）',
+    more: [
+      { src: '/seminar/projects/2022-kobe-bizcon-2.jpg', alt: '睡眠をテーマにしたアイデアを発表する学生' },
+      { src: '/seminar/projects/2022-kobe-bizcon-3.jpg', alt: '学生と教員が事業の構想を話し合う様子' },
+    ],
+  },
 ];
 const years = [...new Set(projects.map((p) => p.year))];
 const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');
