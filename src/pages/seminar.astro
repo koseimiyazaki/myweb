@@ -226,6 +226,8 @@ const projects = [
     alt: '教室に並んだポスターを見る学生たち',
   },
 ];
+const years = [...new Set(projects.map((p) => p.year))];
+const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');
 ---
 <Base>
   <section class="banner">
@@ -281,41 +283,101 @@ const projects = [
       ))}
     </div>
 
-    <h2 class="semi-h2">これまでの企画</h2>
-    <div class="projects">
-      {projects.map((p) => (
-        <figure class="project">
-          <img class="project__main" src={p.photo} alt={p.alt} loading="lazy" />
-          {p.more && (
-            <div class="project__thumbs">
-              {[{ src: p.photo, alt: p.alt }, ...p.more].map((m, i) => (
-                <button type="button" class="project__thumb" aria-pressed={i === 0 ? 'true' : 'false'} data-src={m.src} data-alt={m.alt} aria-label={`写真${i + 1}を表示`}>
-                  <img src={m.src} alt="" loading="lazy" />
+    <section class="works" aria-labelledby="works-h">
+      <div class="works__head">
+        <h2 class="semi-h2" id="works-h">これまでの企画</h2>
+        <div class="chips" role="group" aria-label="絞り込み">
+          <button type="button" class="chip" aria-pressed="true" data-filter="">すべて</button>
+          <button type="button" class="chip" aria-pressed="false" data-filter="ゼミ">ゼミ</button>
+          <button type="button" class="chip" aria-pressed="false" data-filter="プロジェクト演習">プロジェクト演習・ソトマナビ</button>
+        </div>
+      </div>
+      {years.map((y) => (
+        <section class="year" data-year={y}>
+          <h3 class="year__label hand">{y}</h3>
+          <div class="cards">
+            {projects.filter((p) => p.year === y).map((p) => {
+              const photos = [{ src: p.photo, alt: p.alt }, ...(p.more ?? [])];
+              return (
+                <button type="button" class="card" data-tags={(p.tags ?? []).join(' ')}
+                  data-item={json({ title: p.title, when: p.when ?? `${p.year}年`, text: p.text, tags: p.tags ?? [], link: p.link ?? null, photos })}>
+                  <span class="card__img">
+                    <img src={p.photo} alt={p.alt} loading="lazy" />
+                    {photos.length > 1 && <span class="card__count">{photos.length}枚</span>}
+                  </span>
+                  <span class="card__when">{p.when ?? `${p.year}年`}</span>
+                  <span class="card__title">{p.title}</span>
+                  <span class="card__tags">{(p.tags ?? []).map((t) => <span class="tag">{t}</span>)}</span>
                 </button>
-              ))}
-            </div>
-          )}
-          <figcaption>
-            <p class="project__year">{p.when ?? `${p.year}年`}{p.tags && <span class="project__tags">{p.tags.map((t) => `#${t}`).join(' ')}</span>}</p>
-            <h3 class="project__title">{p.title}</h3>
-            <p class="project__text">{p.text}</p>
-            {p.link && <p class="project__link"><a href={p.link.href} target="_blank" rel="noopener">{p.link.label}</a></p>}
-          </figcaption>
-        </figure>
+              );
+            })}
+          </div>
+        </section>
       ))}
-    </div>
+    </section>
 
     <NoteFeed noteId={site.seminarNoteId} heading="ゼミのnote" />
 
     <p class="semi-formal">兵庫大学 現代ビジネス学部 宮崎ゼミ</p>
   </div>
+
+  <dialog class="viewer" aria-labelledby="viewer-title">
+    <div class="viewer__photo">
+      <img alt="" />
+      <button type="button" class="viewer__nav viewer__prev" aria-label="前の写真">‹</button>
+      <button type="button" class="viewer__nav viewer__next" aria-label="次の写真">›</button>
+      <span class="viewer__pos"></span>
+    </div>
+    <div class="viewer__body">
+      <p class="viewer__when"></p>
+      <h3 class="viewer__title" id="viewer-title"></h3>
+      <p class="viewer__tags"></p>
+      <p class="viewer__text"></p>
+      <p class="viewer__link"></p>
+    </div>
+    <button type="button" class="viewer__close" aria-label="閉じる">×</button>
+  </dialog>
+
   <script is:inline>
-    document.querySelectorAll('.project__thumbs').forEach((row) => {
-      const main = row.parentElement.querySelector('.project__main');
-      row.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
-        main.src = b.dataset.src; main.alt = b.dataset.alt;
-        row.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', x === b));
+    (() => {
+      const dlg = document.querySelector('.viewer');
+      const img = dlg.querySelector('.viewer__photo img');
+      const pos = dlg.querySelector('.viewer__pos');
+      let item = null, i = 0;
+      const show = () => {
+        const ph = item.photos[i];
+        img.src = ph.src; img.alt = ph.alt;
+        pos.textContent = item.photos.length > 1 ? `${i + 1} / ${item.photos.length}` : '';
+        dlg.querySelectorAll('.viewer__nav').forEach((b) => (b.hidden = item.photos.length < 2));
+      };
+      document.querySelectorAll('.card').forEach((c) => c.addEventListener('click', () => {
+        item = JSON.parse(c.dataset.item); i = 0;
+        dlg.querySelector('.viewer__when').textContent = item.when;
+        dlg.querySelector('.viewer__title').textContent = item.title;
+        dlg.querySelector('.viewer__tags').textContent = item.tags.map((t) => '#' + t).join(' ');
+        dlg.querySelector('.viewer__text').textContent = item.text;
+        const link = dlg.querySelector('.viewer__link');
+        link.innerHTML = '';
+        if (item.link) { const a = document.createElement('a'); a.href = item.link.href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = item.link.label; link.append(a); }
+        show(); dlg.showModal();
       }));
-    });
+      const step = (d) => { if (!item) return; i = (i + d + item.photos.length) % item.photos.length; show(); };
+      dlg.querySelector('.viewer__prev').addEventListener('click', () => step(-1));
+      dlg.querySelector('.viewer__next').addEventListener('click', () => step(1));
+      dlg.querySelector('.viewer__close').addEventListener('click', () => dlg.close());
+      dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+      dlg.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
+
+      const chips = [...document.querySelectorAll('.chip')];
+      chips.forEach((ch) => ch.addEventListener('click', () => {
+        chips.forEach((x) => x.setAttribute('aria-pressed', x === ch));
+        const f = ch.dataset.filter;
+        document.querySelectorAll('.year').forEach((y) => {
+          let n = 0;
+          y.querySelectorAll('.card').forEach((c) => { const on = !f || c.dataset.tags.split(' ').includes(f); c.hidden = !on; if (on) n++; });
+          y.hidden = n === 0;
+        });
+      }));
+    })();
   </script>
 </Base>
