@@ -31,7 +31,7 @@ async function handleContact(request, env) {
   // 2. Turnstile（トークンは1回限り。サーバー側で siteverify に問い合わせる）
   const token = form.get('cf-turnstile-response');
   if (typeof token !== 'string' || !token || token.length > 2048) return json({ ok: false, error: 'captcha' }, 400);
-  if (!env.TURNSTILE_SECRET || ALLOWED_HOSTS.length === 0) return json({ ok: false, error: 'captcha' }, 500);
+  if (!env.TURNSTILE_SECRET) return json({ ok: false, error: 'captcha', reason: 'no-secret' }, 500);
   let verify = { success: false };
   try {
     const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -41,7 +41,11 @@ async function handleContact(request, env) {
     if (res.ok) verify = await res.json();
   } catch { verify = { success: false }; }
   if (verify.success !== true || verify.action !== ACTION || !ALLOWED_HOSTS.includes(verify.hostname)) {
-    return json({ ok: false, error: 'captcha' }, 400);
+    // 原因の切り分け用（秘密の値は含まない）
+    const reason = verify.success !== true ? (verify['error-codes'] || ['verify-failed']).join(',')
+      : verify.action !== ACTION ? `action:${verify.action}` : `host:${verify.hostname}`;
+    console.error('turnstile', reason);
+    return json({ ok: false, error: 'captcha', reason }, 400);
   }
 
   // 3. 入力チェック

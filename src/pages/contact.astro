@@ -61,7 +61,7 @@ const alert = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
               status.textContent = '送信しました。内容を確認して、ご連絡します。';
               return;
             }
-            showError(messages[data.error] || '送信できませんでした。時間をおいて、もう一度お試しください。');
+            showError((messages[data.error] || '送信できませんでした。時間をおいて、もう一度お試しください。') + (data.reason ? `（${data.reason}）` : ''));
           } catch {
             showError('送信できませんでした。時間をおいて、もう一度お試しください。');
           }
