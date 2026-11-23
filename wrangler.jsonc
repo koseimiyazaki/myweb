@@ -3,6 +3,8 @@
   "name": "myweb",
   "main": "worker/index.js",
   "compatibility_date": "2026-11-01",
+  // 管理画面で設定した変数をデプロイのたびに消さない
+  "keep_vars": true,
   "assets": { "directory": "./dist", "binding": "ASSETS" },
   // 独自ドメイン。Cloudflareで購入したドメインなので、DNSと証明書は自動で設定される
   "routes": [{ "pattern": "kosei.page", "custom_domain": true }],
