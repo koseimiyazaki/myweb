@@ -85,7 +85,7 @@ async function handleContact(request, env) {
     await env.CONTACT.send(new EmailMessage(FROM, TO, raw));
   } catch (e) {
     console.error('send failed', e);
-    return json({ ok: false, error: 'send' }, 500);
+    return json({ ok: false, error: 'send', reason: String(e && e.message || e).slice(0, 160) }, 500);
   }
   return json({ ok: true });
 }
