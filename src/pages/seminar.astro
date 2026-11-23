@@ -3,14 +3,16 @@ import Base from '../layouts/Base.astro';
 import NoteFeed from '../components/NoteFeed.astro';
 import { site } from '../data/site';
 
-// 用件（短い名詞）＋ひとこと（話しかける口調）。並びは きく→しらべる→つくる の順。
-const activities = [
-  { verb: 'きいて・しらべて', title: 'まちのアンケート', say: '東加古川軒先市場で、まちの声をきいています。', since: '2024年〜' },
-  { verb: 'つくります', title: '兵庫のブランドのnote', say: 'じっさいに つかって、たずねて、かいています。', since: '2026年〜' },
-];
 
 // これまでの企画。新しいものを上に足す。写真は public/seminar/projects/ に、位置情報を消して置く。
 const projects = [
+  {
+    tags: ['ゼミ'],
+    year: 2026,
+    when: '2026年10月〜',
+    title: 'ものづくり紹介note',
+    text: '兵庫のものづくりブランドを、ゼミ生が実際に使い、つくり手を訪ねて、noteの記事で紹介しています。',
+  },
   {
     tags: ['ゼミ'],
     year: 2025,
@@ -316,7 +318,12 @@ const projects = [
     ],
   },
 ];
-const years = [...new Set(projects.map((p) => p.year))];
+// 年度で区切る（4月はじまり）。when の「YYYY年M月」から年度を出す。月がなければ year をそのまま年度とする
+const ym = (p) => { const m = (p.when ?? '').match(/(\d{4})年(\d{1,2})月/); return m ? [Number(m[1]), Number(m[2])] : [p.year, 0]; };
+const fyOf = (p) => { const [y, mo] = ym(p); return mo && mo < 4 ? y - 1 : y; };
+const sortKey = (p) => { const [y, mo] = ym(p); return y * 100 + mo; };
+const years = [...new Set(projects.map(fyOf))].sort((a, b) => b - a);
+const inYear = (fy) => projects.filter((p) => fyOf(p) === fy).sort((a, b) => sortKey(b) - sortKey(a));
 const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');
 ---
 <Base>
@@ -361,17 +368,6 @@ const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');
     </div>
 
 
-    <h2 class="semi-h2">やっていること</h2>
-    <div class="semi-boards">
-      {activities.map((a) => (
-        <article class="board">
-          <p class="board__verb">{a.verb}</p>
-          <h3 class="board__title">{a.title}</h3>
-          <p class="board__say hand">{a.say}</p>
-          <p class="board__since">{a.since}</p>
-        </article>
-      ))}
-    </div>
 
     <section class="works" aria-labelledby="works-h">
       <div class="works__head">
@@ -384,15 +380,15 @@ const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');
       </div>
       {years.map((y) => (
         <section class="year" data-year={y}>
-          <h3 class="year__label hand">{y}</h3>
+          <h3 class="year__label hand">{y}<span class="year__unit">年度</span></h3>
           <div class="cards">
-            {projects.filter((p) => p.year === y).map((p) => {
-              const photos = [{ src: p.photo, alt: p.alt }, ...(p.more ?? [])];
+            {inYear(y).map((p) => {
+              const photos = p.photo ? [{ src: p.photo, alt: p.alt }, ...(p.more ?? [])] : [];
               return (
                 <button type="button" class="card" data-tags={(p.tags ?? []).join(' ')}
                   data-item={json({ title: p.title, when: p.when ?? `${p.year}年`, text: p.text, tags: p.tags ?? [], link: p.link ?? null, photos })}>
                   <span class="card__img">
-                    <img src={p.photo} alt={p.alt} loading="lazy" />
+                    {p.photo ? <img src={p.photo} alt={p.alt} loading="lazy" /> : <span class="card__noimg hand">{p.title}</span>}
                     {photos.length > 1 && <span class="card__count">{photos.length}枚</span>}
                   </span>
                   <span class="card__when">{p.when ?? `${p.year}年`}</span>
@@ -434,7 +430,10 @@ const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');
       const img = dlg.querySelector('.viewer__photo img');
       const pos = dlg.querySelector('.viewer__pos');
       let item = null, i = 0;
+      const photoBox = dlg.querySelector('.viewer__photo');
       const show = () => {
+        photoBox.hidden = item.photos.length === 0; dlg.classList.toggle('viewer--text', item.photos.length === 0);
+        if (!item.photos.length) return;
         const ph = item.photos[i];
         img.src = ph.src; img.alt = ph.alt;
         pos.textContent = item.photos.length > 1 ? `${i + 1} / ${item.photos.length}` : '';
@@ -451,7 +450,7 @@ const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');
         if (item.link) { const a = document.createElement('a'); a.href = item.link.href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = item.link.label; link.append(a); }
         show(); dlg.showModal();
       }));
-      const step = (d) => { if (!item) return; i = (i + d + item.photos.length) % item.photos.length; show(); };
+      const step = (d) => { if (!item || !item.photos.length) return; i = (i + d + item.photos.length) % item.photos.length; show(); };
       dlg.querySelector('.viewer__prev').addEventListener('click', () => step(-1));
       dlg.querySelector('.viewer__next').addEventListener('click', () => step(1));
       dlg.querySelector('.viewer__close').addEventListener('click', () => dlg.close());

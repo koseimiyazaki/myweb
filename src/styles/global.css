@@ -169,3 +169,8 @@ main.semi-main { padding: 0; }
   .card__title { font-size: 15px; }
   .year__label { font-size: 32px; }
 }
+.year__unit { font-size: 0.5em; margin-left: 4px; }
+.card__noimg { display: flex; align-items: center; justify-content: center; aspect-ratio: 4 / 3; padding: var(--space-4);
+  font-size: 22px; line-height: 1.4; text-align: center; border: 2px solid var(--ink); border-radius: var(--radius-md); background: var(--paper); }
+.viewer--text { grid-template-columns: 1fr; width: min(560px, 94vw); }
+.viewer__photo[hidden] { display: none; }
