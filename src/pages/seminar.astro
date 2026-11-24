@@ -442,8 +442,8 @@ const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');
           <button type="button" class="chip" aria-pressed="false" data-filter="プロジェクト演習">プロジェクト演習・ソトマナビ</button>
         </div>
       </div>
-      {years.map((y) => (
-        <section class="year" data-year={y}>
+      {years.map((y, yi) => (
+        <section class="year" data-year={y} data-old={yi >= 2 ? "1" : undefined}>
           <h3 class="year__label hand">{y}<span class="year__unit">年度</span></h3>
           <div class="cards">
             {inYear(y).map((p) => {
@@ -464,6 +464,9 @@ const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');
           </div>
         </section>
       ))}
+      {years.length > 2 && (
+        <p class="years-more"><button type="button" class="chip" id="years-more">それ以前の年度も見る（{years.slice(2).map((y) => `${y}`).join('・')}年度）</button></p>
+      )}
     </section>
 
     <NoteFeed noteId={site.seminarNoteId} heading="ゼミのnote" />
@@ -521,8 +524,12 @@ const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');
       dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
       dlg.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
 
-      const chips = [...document.querySelectorAll('.chip')];
+      const works = document.querySelector('.works');
+      const more = document.getElementById('years-more');
+      if (more) more.addEventListener('click', () => { works.classList.add('show-all'); more.parentElement.remove(); });
+      const chips = [...document.querySelectorAll('.chips .chip')];
       chips.forEach((ch) => ch.addEventListener('click', () => {
+        works.classList.add('show-all'); if (more && more.parentElement) more.parentElement.remove();
         chips.forEach((x) => x.setAttribute('aria-pressed', x === ch));
         const f = ch.dataset.filter;
         document.querySelectorAll('.year').forEach((y) => {

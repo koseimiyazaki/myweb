@@ -101,3 +101,30 @@
   .mz-goals .mz-list li{min-height:32px;gap:12px}
 }
 </style>
+<style is:global>
+/* 縦の長さを詰める */
+.semi-section .mz-goals{gap:24px}
+.semi-section .mz-goals .mz-skills{gap:32px}
+.semi-section .mz-goals .mz-verb{font-size:clamp(30px,2.8vw,44px);line-height:1.25}
+.semi-section .mz-goals .mz-examples{margin-top:10px;padding-top:10px}
+.semi-section .mz-goals .mz-base{padding:16px 20px;gap:10px}
+.semi-section .mz-goals .mz-vision{padding:24px 36px;gap:16px}
+.semi-section .mz-goals .mz-cols{gap:40px}
+.semi-section .mz-goals .mz-col{gap:10px}
+.semi-section .mz-goals .mz-list{gap:4px}
+.semi-section .mz-goals .mz-list li{min-height:30px;gap:12px}
+.semi-section .mz-goals .mz-badge{width:26px;height:26px;font-size:13px}
+.semi-section .mz-goals .mz-tri{width:14px;height:18px}
+@media (max-width:640px){
+  .semi-section .mz-goals .mz-skills{grid-template-columns:1fr;gap:20px}
+  .semi-section .mz-goals .mz-skills > div:not(.mz-base){display:grid;grid-template-columns:auto 1fr;column-gap:14px;align-items:baseline}
+  .semi-section .mz-goals .mz-verb{font-size:26px;grid-row:span 2}
+  .semi-section .mz-goals .mz-lead{margin-top:0;font-size:16px}
+  .semi-section .mz-goals .mz-examples{grid-column:2;margin-top:6px;padding-top:6px;font-size:13px}
+  .semi-section .mz-goals .mz-base{flex-direction:row;flex-wrap:wrap;gap:8px 20px}
+  .semi-section .mz-goals .mz-base h3{width:100%}
+  .semi-section .mz-goals .mz-vision{padding:18px 16px}
+  .semi-section .mz-goals .mz-cols{gap:18px}
+  .semi-section .mz-goals .mz-list li{font-size:15px;min-height:26px}
+}
+</style>
