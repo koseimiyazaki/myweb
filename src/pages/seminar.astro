@@ -54,9 +54,9 @@ const projects = [
   {
     tags: ['ゼミ'],
     year: 2026,
-    when: '2026年10月〜',
+    when: '2026年度（予定）',
     title: 'ものづくり紹介note',
-    text: '兵庫のものづくりブランドを、ゼミ生が実際に使い、つくり手を訪ねて、noteの記事で紹介しています。',
+    text: '兵庫のものづくりブランドを、ゼミ生が実際に使い、つくり手を訪ねて、noteの記事で紹介する予定です。いま記事を準備しています。',
   },
   {
     tags: ['ゼミ'],
@@ -366,7 +366,8 @@ const projects = [
 // 年度で区切る（4月はじまり）。when の「YYYY年M月」から年度を出す。月がなければ year をそのまま年度とする
 const ym = (p) => { const m = (p.when ?? '').match(/(\d{4})年(\d{1,2})月/); return m ? [Number(m[1]), Number(m[2])] : [p.year, 0]; };
 const fyOf = (p) => { const [y, mo] = ym(p); return mo && mo < 4 ? y - 1 : y; };
-const sortKey = (p) => { const [y, mo] = ym(p); return y * 100 + mo; };
+// 予定の企画は年度の先頭に出す
+const sortKey = (p) => { if ((p.when ?? '').includes('予定')) return Infinity; const [y, mo] = ym(p); return y * 100 + mo; };
 const years = [...new Set(projects.map(fyOf))].sort((a, b) => b - a);
 const inYear = (fy) => projects.filter((p) => fyOf(p) === fy).sort((a, b) => sortKey(b) - sortKey(a));
 const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');

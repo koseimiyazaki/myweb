@@ -179,3 +179,4 @@ main.semi-main { padding: 0; }
   .scenes { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: var(--space-2); padding-bottom: var(--space-2); }
   .scene { flex: 0 0 38%; scroll-snap-align: start; }
 }
+.card__noimg { border-style: dashed; }
