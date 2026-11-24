@@ -1,0 +1,103 @@
+---
+// みやざきゼミの育成目標。元はWeb貼り付け用モジュール（.mz-goals の中に閉じたスタイル）。
+// 色・書体はサイトのトークン（--ink, --yellow, --sans, --hand）に寄せ、文字の大きさをページの他の見出しと釣り合わせた。
+---
+<div class="mz-goals">
+  <div class="mz-skills">
+    <div>
+      <p class="mz-hand mz-verb">きいて、</p>
+      <p class="mz-lead">マーケティング思考で<br>人々の声と行動を知る</p>
+      <p class="mz-examples">ペルソナとカスタマージャーニー<br>検索・人流データ</p>
+    </div>
+    <div>
+      <p class="mz-hand mz-verb">しらべて、</p>
+      <p class="mz-lead">ビジネス理解にもとづいて<br>データで掴む</p>
+      <p class="mz-examples">ビジネスモデル・財務モデル<br>ロジックツリー・KPIツリー</p>
+    </div>
+    <div>
+      <p class="mz-hand mz-verb">つくります。</p>
+      <p class="mz-lead">AIと組んで、課題を見つけ、<br>かたちにする</p>
+      <p class="mz-examples">AI/BIを使ったデータ可視化<br>AIによるメディア制作・アプリ試作</p>
+    </div>
+    <div class="mz-base">
+      <h3>土台となる人間力</h3>
+      <p><strong>自己理解</strong><span>クリフトンストレングス</span></p>
+      <p><strong>協働力</strong><span>コンセンサスゲーム</span></p>
+      <p><strong>対話力</strong><span>デモクラシーフィットネス</span></p>
+    </div>
+  </div>
+
+  <div class="mz-vision">
+    <h2><span>めざす姿：データドリブン・プロジェクトマネージャー with 自分らしさ</span></h2>
+    <div class="mz-cols">
+      <div class="mz-col">
+        <p class="mz-hand mz-label">できるようになること</p>
+        <ol class="mz-list mz-num">
+          <li><span class="mz-badge">1</span>人と話し、課題のありかを感じとる</li>
+          <li><span class="mz-badge">2</span>データでたしかめ、わかりやすく伝える</li>
+          <li><span class="mz-badge">3</span>小さくかたちにして、試す</li>
+          <li><span class="mz-badge">4</span>ふりかえって、改善する</li>
+          <li><span class="mz-badge">5</span>自ら手を動かしながら、AIと協働する</li>
+        </ol>
+      </div>
+      <div class="mz-col">
+        <p class="mz-hand mz-label">将来に生きる経験</p>
+        <ul class="mz-list">
+          <li><svg class="mz-tri" viewBox="0 0 20 24" aria-hidden="true"><path d="M2 2 L18 12 L2 22 Z" fill="currentColor"/></svg>周囲の人をまきこみながら課題にとりくむ</li>
+          <li><svg class="mz-tri" viewBox="0 0 20 24" aria-hidden="true"><path d="M2 2 L18 12 L2 22 Z" fill="currentColor"/></svg>データを分析し、チャートで伝える</li>
+          <li><svg class="mz-tri" viewBox="0 0 20 24" aria-hidden="true"><path d="M2 2 L18 12 L2 22 Z" fill="currentColor"/></svg>試作と修正の短いサイクルで形にする</li>
+          <li><svg class="mz-tri" viewBox="0 0 20 24" aria-hidden="true"><path d="M2 2 L18 12 L2 22 Z" fill="currentColor"/></svg>区切りごとにふりかえり、学び直す</li>
+          <li><svg class="mz-tri" viewBox="0 0 20 24" aria-hidden="true"><path d="M2 2 L18 12 L2 22 Z" fill="currentColor"/></svg>生成AIを日常の道具として使う</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+.mz-goals{--muted:var(--ink-muted);
+  color:var(--ink);font-family:var(--sans);font-weight:500;
+  line-height:1.5;display:flex;flex-direction:column;gap:40px;box-sizing:border-box}
+.mz-goals *{box-sizing:border-box}
+.mz-goals p,.mz-goals h2,.mz-goals h3,.mz-goals ol,.mz-goals ul{margin:0;padding:0}
+.mz-goals .mz-hand{font-family:var(--hand);font-weight:400}
+
+/* 上段：きいて・しらべて・つくります・土台 */
+.mz-goals .mz-skills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,.92fr);gap:40px;align-items:stretch}
+.mz-goals .mz-verb{font-size:clamp(36px,3.4vw,52px);line-height:1.35}
+.mz-goals .mz-lead{margin-top:8px;font-size:clamp(17px,1.4vw,22px);line-height:1.5;font-weight:700}
+.mz-goals .mz-examples{margin-top:16px;padding-top:16px;border-top:1.5px solid var(--muted);font-size:clamp(14px,1.1vw,17px);line-height:1.7;color:var(--muted)}
+.mz-goals .mz-base{padding:24px 28px;border:1.5px dashed var(--muted);border-radius:24px;display:flex;flex-direction:column;gap:16px}
+.mz-goals .mz-base h3{font-size:clamp(16px,1.2vw,19px);font-weight:700}
+.mz-goals .mz-base strong{display:block;font-size:clamp(18px,1.4vw,22px);line-height:1.35;font-weight:700}
+.mz-goals .mz-base span{display:block;font-size:clamp(13px,1vw,15px);color:var(--muted)}
+
+/* 下段：めざす姿 */
+.mz-goals .mz-vision{padding:40px 48px;border:1.5px solid var(--muted);border-radius:24px;display:flex;flex-direction:column;gap:24px}
+.mz-goals .mz-vision h2{font-size:clamp(20px,2.1vw,32px);line-height:1.4;font-weight:700}
+.mz-goals .mz-vision h2 span{background:var(--yellow);border-radius:12px;padding:4px 20px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.mz-goals .mz-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px}
+.mz-goals .mz-col{display:flex;flex-direction:column;gap:16px}
+.mz-goals .mz-label{font-size:clamp(17px,1.4vw,22px)}
+.mz-goals .mz-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.mz-goals .mz-list li{display:flex;gap:16px;align-items:center;min-height:40px;font-size:clamp(15px,1.25vw,19px);line-height:1.5}
+.mz-goals .mz-num li{font-weight:700}
+.mz-goals .mz-badge{flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.mz-goals .mz-tri{flex-shrink:0;width:20px;height:24px}
+
+/* タブレット */
+@media (max-width:1100px){
+  .mz-goals .mz-skills{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mz-goals .mz-vision{padding:32px 36px}
+  .mz-goals .mz-cols{gap:40px}
+}
+/* スマートフォン */
+@media (max-width:640px){
+  .mz-goals{gap:24px}
+  .mz-goals .mz-skills{grid-template-columns:1fr;gap:32px}
+  .mz-goals .mz-vision{padding:24px 20px}
+  .mz-goals .mz-cols{grid-template-columns:1fr;gap:32px}
+  .mz-goals .mz-badge{width:32px;height:32px;font-size:15px}
+  .mz-goals .mz-list li{min-height:32px;gap:12px}
+}
+</style>

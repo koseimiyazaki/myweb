@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import NoteFeed from '../components/NoteFeed.astro';
+import SeminarGoals from '../components/SeminarGoals.astro';
 import { site } from '../data/site';
 
 
@@ -386,6 +387,13 @@ const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');
       <p>まちの人の話をきき、データでしらべ、わかったことをかたちにする。<br class="br-wide" />気軽に相談できる「いちばん近くの大学生」でありたいと思っています。</p>
     </div>
 
+    <section class="semi-section" aria-labelledby="goals-h">
+      <h2 class="semi-h2" id="goals-h">ゼミで育てる力</h2>
+      <SeminarGoals />
+    </section>
+
+    <section class="semi-section" aria-labelledby="scenes-h">
+      <h2 class="semi-h2" id="scenes-h">ゼミの風景</h2>
     <div class="scenes">
       <figure class="scene">
         <img src="/seminar/projects/2026-seminar-scene.jpg" alt="自作のまちづくりイベント用アプリをデモする学生たち" width="1024" height="768" loading="lazy" />
@@ -423,7 +431,9 @@ const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');
 
 
 
-    <section class="works" aria-labelledby="works-h">
+    </section>
+
+    <section class="works semi-section" aria-labelledby="works-h">
       <div class="works__head">
         <h2 class="semi-h2" id="works-h">これまでの企画</h2>
         <div class="chips" role="group" aria-label="絞り込み">

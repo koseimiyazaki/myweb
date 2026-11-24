@@ -182,3 +182,17 @@ main.semi-main { padding: 0; }
 .card__noimg { border-style: dashed; }
 .semi-lead { max-width: none; }
 @media (max-width: 759px) { .br-wide { display: none; } }
+
+/* ===== セクションの区切り（見出し・余白をそろえる） ===== */
+.semi-lead { margin-bottom: 0; }
+.semi-section { margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid var(--rule); }
+.semi-section > .semi-h2, .works__head .semi-h2 { margin: 0 0 var(--space-6); font-size: 26px; line-height: 1.4; }
+.works.semi-section { margin-top: var(--space-16); }
+.works__head { margin-bottom: var(--space-2); }
+.works__head .semi-h2 { margin-bottom: 0; }
+.semi-section .scenes { margin: 0; }
+.year:first-of-type { margin-top: var(--space-6); }
+@media (max-width: 599px) {
+  .semi-section { margin-top: var(--space-12); padding-top: var(--space-6); }
+  .semi-section > .semi-h2, .works__head .semi-h2 { font-size: 22px; }
+}
