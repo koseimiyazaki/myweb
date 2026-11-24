@@ -165,3 +165,18 @@
   .mz-goals .mz-scene__grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 }
 </style>
+<style is:global>
+/* 土台となる人間力：見出しの高さまで上げ、点線の枠ではなく点線の縦線で区切る。取り組み風景ボタンは下端でそろえる */
+.semi-section .mz-goals .mz-skills > div{display:flex;flex-direction:column}
+.semi-section .mz-goals .mz-skills .mz-examples{margin-bottom:14px}
+.semi-section .mz-goals .mz-skills .mz-scene-btn{margin-top:auto;align-self:flex-start}
+.semi-section .mz-goals .mz-base{border:0;border-left:1.5px dashed var(--muted);border-radius:0;padding:0 0 0 32px;
+  margin-top:calc(-1 * (15px * 1.5 + var(--space-6)))}
+.semi-section .mz-goals .mz-base > p:last-of-type{margin-bottom:14px}
+@media (max-width:640px){
+  .semi-section .mz-goals .mz-base{margin-top:0;border-left:0;border-top:1.5px dashed var(--muted);padding:20px 0 0}
+}
+@media (min-width:641px) and (max-width:1100px){
+  .semi-section .mz-goals .mz-base{margin-top:0}
+}
+</style>
