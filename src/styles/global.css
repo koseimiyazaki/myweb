@@ -196,3 +196,8 @@ main.semi-main { padding: 0; }
   .semi-section { margin-top: var(--space-12); padding-top: var(--space-6); }
   .semi-section > .semi-h2, .works__head .semi-h2 { font-size: 22px; }
 }
+
+/* 区切り線をなくし、セクション見出しは小さなラベルに */
+.semi-section { border-top: 0; padding-top: 0; }
+.semi-section > .semi-h2, .works__head .semi-h2 { font-size: 15px; line-height: 1.5; font-weight: 700; color: var(--ink-muted); letter-spacing: 0.08em; }
+@media (max-width: 599px) { .semi-section > .semi-h2, .works__head .semi-h2 { font-size: 14px; } }
