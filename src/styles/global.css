@@ -196,14 +196,3 @@ main.semi-main { padding: 0; }
   .semi-section { margin-top: var(--space-12); padding-top: var(--space-6); }
   .semi-section > .semi-h2, .works__head .semi-h2 { font-size: 22px; }
 }
-
-/* 古い年度は「それ以前の年度も見る」で開く */
-.works:not(.show-all) .year[data-old] { display: none; }
-.years-more { margin: var(--space-8) 0 0; text-align: center; }
-/* 余白を詰める */
-.semi-body { padding-top: var(--space-8); }
-.semi-section { margin-top: var(--space-12); padding-top: var(--space-6); }
-.semi-section > .semi-h2, .works__head .semi-h2 { margin-bottom: var(--space-4); }
-.year { margin-top: var(--space-6); }
-.cards { gap: var(--space-6) var(--space-4); }
-@media (max-width: 599px) { .semi-section { margin-top: var(--space-8); padding-top: var(--space-4); } }
