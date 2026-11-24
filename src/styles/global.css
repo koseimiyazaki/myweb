@@ -180,3 +180,5 @@ main.semi-main { padding: 0; }
   .scene { flex: 0 0 38%; scroll-snap-align: start; }
 }
 .card__noimg { border-style: dashed; }
+.semi-lead { max-width: none; }
+@media (max-width: 759px) { .br-wide { display: none; } }
